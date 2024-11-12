@@ -163,7 +163,6 @@ class TaskController extends Controller
             return $this->error();
         }
 
-        // Return the customer
         return $this->success($result);
     }
     /**
@@ -246,7 +245,7 @@ class TaskController extends Controller
         $attachmentService = new AttachementService();
 
         // Store the attachment
-        $url = $attachmentService->storeAttachement($task, $request);
+        $url = $attachmentService->storeAttachment($task, $request);
 
         // If the attachment was stored successfully, return the URL
         if ($url) {

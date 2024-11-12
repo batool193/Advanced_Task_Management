@@ -2,7 +2,10 @@
 
 namespace App\Services;
 
+use Exception;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Log;
+
 
 /**
  * AuthService
@@ -46,11 +49,14 @@ class AuthService
      */
     public static function logout()
     {
-        if (JWTAuth::invalidate(JWTAuth::getToken()))
+        $token = JWTAuth::getToken();
+        if ($token)
+      {  JWTAuth::invalidate();
             return [
                 'success' => true,
                 'message' => 'Successfully logged out',
             ];
+        }
 
         return [
             'success' => false,

@@ -25,7 +25,7 @@ class AttachementService
         try {
             // Validate the attachment
             $attachment->validate([
-                'file' => 'required|file|mimes:msword,pdf|max:10240', // Max file size: 10MB
+                'file' => 'required|file|mimes:pdf,doc,docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document|max:10240', // Max file size: 10MB
             ]);
 
             $file = $attachment->file('file');
@@ -36,7 +36,7 @@ class AttachementService
                 throw new Exception(trans('general.notAllowedAction'), 403);
             }
 
-            $allowedMimeTypes = ['application/msword', 'application/pdf'];
+            $allowedMimeTypes = ['application/pdf','doc','docx','application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
             $mime_type = $file->getClientMimeType();
 
             // Check if the file type is allowed

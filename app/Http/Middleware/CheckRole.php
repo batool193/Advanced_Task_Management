@@ -21,20 +21,18 @@ class CheckRole
      * @param  string ...$role
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function handle(Request $request, Closure $next, ...$role): Response
+    public function handle(Request $request, Closure $next,string $role): Response
     {
         /** @var \App\Models\User $user */
         $user = JWTAuth::user();
 
-        // Check that the user is authenticated and that the user's role matches
-        // one of the roles that the middleware is checking for.
-        if (!JWTAuth::check() || !in_array($user->role, $role)) {
-            // If the role does not match, return a 403 response.
-            return response('Unauthorized', 403);
+        if ($user && ($user->role == $role)) {
+        return $next($request);
+
         }
 
-        // If the role matches, call the next middleware in the stack.
-        return $next($request);
+         // If the role does not match, return a 403 response.
+         return response('Unauthorized', 403);
     }
     }
 

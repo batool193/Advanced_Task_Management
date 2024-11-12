@@ -94,7 +94,8 @@ class TaskService
             $user = JWTAuth::user();
 
             // Check if the user has the required role to create a task
-            if (in_array($user->role, ['admin', 'manager'])) {
+          //  if (in_array($user->role, ['admin', 'manager'])) {
+            if (($user->role=='admin')||($user->role=='manager')) {
                 DB::beginTransaction();
 
                 // Create a new task with the provided data
@@ -102,6 +103,7 @@ class TaskService
                     'title' => $data['title'],
                     'description' => $data['description'],
                     'type' => $data['type'],
+                    'status'=>TaskStatus::Open,
                     'priority' => $data['priority'],
                     'created_by' => $user->id
                 ]);
@@ -157,7 +159,8 @@ class TaskService
             $user = JWTAuth::user();
 
             // Check if the user has the required role to assign the task
-            if (in_array($user->role, ['admin', 'manager'])) {
+           // if (in_array($user->role, ['admin', 'manager'])) {
+            if (($user->role=='admin')||($user->role=='manager')) {
                 DB::beginTransaction();
 
                 // Find the task
@@ -189,7 +192,8 @@ class TaskService
             DB::rollBack();
 
             // Log an error if unauthorized or an exception occurs
-            if (!in_array($user->role, ['admin', 'manager'])) {
+         //   if (!in_array($user->role, ['admin', 'manager'])) {
+            if (!($user->role=='admin')||!($user->role=='manager')) {
                 Log::error('Unauthorized');
             }
             // Return false if any error occurs
@@ -220,7 +224,8 @@ class TaskService
             $user = JWTAuth::user();
 
             // Check if the user has the required role to update a task
-            if (in_array($user->role, ['admin', 'manager'])) {
+           // if (in_array($user->role, ['admin', 'manager'])) {
+            if (($user->role=='admin')||($user->role=='manager')) {
                 // Find the task to be updated
                 $task = Task::findOrFail($task);
 
@@ -408,7 +413,8 @@ class TaskService
             $user = JWTAuth::user();
 
             // Check if the user has the required role to delete the task
-            if (in_array($user->role, ['admin', 'manager'])) {
+          //  if (in_array($user->role, ['admin', 'manager'])) {
+            if (($user->role=='admin')||($user->role=='manager')) {
                 // Get the dependent tasks
                 $dependentTasks = $task->dependents;
 
@@ -461,7 +467,8 @@ class TaskService
             $user = JWTAuth::user();
 
             // Check if the user has the required role to restore the task
-            if (in_array($user->role, ['admin', 'manager'])) {
+           // if (in_array($user->role, ['admin', 'manager'])) {
+            if (($user->role=='admin')||($user->role=='manager')) {
                 // Restore the task
                 $task->restore();
 
@@ -514,7 +521,8 @@ class TaskService
             $user = JWTAuth::user();
 
             // Check if the user has the required role to permanently delete the task
-            if (in_array($user->role, ['admin', 'manager'])) {
+           // if (in_array($user->role, ['admin', 'manager'])) {
+            if (($user->role=='admin')||($user->role=='manager')) {
                 // Detach all dependents from the task
                 $Task->dependents()->detach();
 
@@ -603,7 +611,8 @@ class TaskService
             );
 
             // If the user is an admin or manager, retrieve all tasks with status 'blocked'
-            if (in_array($user->role, ['admin', 'manager'])) {
+           // if (in_array($user->role, ['admin', 'manager'])) {
+            if (($user->role=='admin')||($user->role=='manager')) {
                 $tasks = $tasks->ByStatus('blocked');
             } else {
                 // Log an error if the user is not authorized

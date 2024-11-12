@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->enum('type', ['bug', 'feature', 'improvemet']);
+            $table->enum('type', ['bug', 'feature', 'improvement']);
             $table->enum('status', ['open','in_progress', 'completed', 'blocked']);
             $table->enum('priority', ['low', 'medium', 'high']);
             $table->date('due_date')->nullable();
@@ -23,10 +23,8 @@ return new class extends Migration
             $table->foreignId('created_by')->nullable()->constrained('users');
             $table->timestamps();
             $table->index('type');
-          //  $table->index('status');
             $table->index('priority');
             $table->index('due_date');
-          //  $table->index('assigned_to');
             $table->softDeletes();
         });
     }

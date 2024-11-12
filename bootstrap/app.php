@@ -2,6 +2,8 @@
 
 use App\Http\Middleware\CheckRole;
 use Illuminate\Foundation\Application;
+use App\Http\Middleware\SecurityMiddleware;
+use Tymon\JWTAuth\Http\Middleware\Authenticate;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
@@ -13,7 +15,6 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-       $middleware->alias(['CheckRole' => CheckRole::class]);
 
     })
     ->withExceptions(function (Exceptions $exceptions) {
